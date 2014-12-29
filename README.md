@@ -8,6 +8,17 @@ If you want to play the game, simply download the jar file from the /dist direct
 username: default1
 password: ECSE321bman@@
 
+Some of the cool things about this project:
+
+- Leaderboards system
+- Login system
+- 8 different enemy types
+- 60 stages
+- 3 levels of artificial intelligence. The smartest enemies use A* path finding to find the shortest path towards the player, it is really cool!
+- Bonus stages.
+- MongoDB backend deployed on MongoLabs!
+- Java swing for the menus and all gameplay elements 
+
 **Team-4 ISE**
 
 * Vasundhara Gupta - vasundhara.gupta@mail.mcgill.ca
