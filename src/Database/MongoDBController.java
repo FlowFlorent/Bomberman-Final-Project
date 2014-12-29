@@ -27,7 +27,7 @@ public class MongoDBController {
 
     public void initializeDataBase() {
         try {
-            MongoClientURI uri = new MongoClientURI("mongodb://macadev:Macario060261@ds059887.mongolab.com:59887/bomberman");
+            MongoClientURI uri = new MongoClientURI("mongodb://uname:pass@ds059887.mongolab.com:59887/bomberman");
             MongoClient client = new MongoClient(uri);
             db = client.getDB(uri.getDatabase());
         } catch (UnknownHostException e) {

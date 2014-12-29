@@ -1,6 +1,13 @@
 Bomberman | Team 4
 ==========
 
+Temporary repository of the our final project for Introduction to Software Engineering (ECSE 321). All contributions will be made public once the grading is finished.
+
+If you want to play the game, simply download the jar file from the /dist directory. There is no email needed for the login. You can create an account, or connect using the following default account: 
+
+username: default1
+password: ECSE321bman@@
+
 **Team-4 ISE**
 
 * Vasundhara Gupta - vasundhara.gupta@mail.mcgill.ca
