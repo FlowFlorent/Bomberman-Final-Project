@@ -1,0 +1,104 @@
+<project name="bomberman" default="compile" basedir=".">
+    <property name="src" location="src"/>
+    <property name="lib" location="lib"/>
+    <property name="build" location="bin"/>
+    <property name="dist"  location="dist"/>
+    <property name="doc"  location="doc"/>
+    <property name="res"  location="src/res"/>
+    <property name="test"  location="test"/>
+    <property name="testresults" value="test-results"/>
+
+    <target name="clean">
+        <!--
+            Delete our directories.
+        -->
+        <delete dir="${build}"/>
+        <delete dir="${doc}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <!-- Create the build directory. -->
+        <mkdir dir="${build}/src"/>
+
+        <!--
+            Compile all of the source files.
+            Make sure to include libraries.
+        -->
+        <javac srcdir="${src}" destdir="${build}/src">
+            <classpath>
+                <fileset dir="${lib}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+        <mkdir dir="${build}/src/res"/>
+        <!-- Copy our resources. -->
+        <copy todir="${build}/src/res">
+            <fileset dir="${res}"/>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile">
+        <!--Delete old DB and savedgames folder-->
+        <delete dir="dist/src"/>
+        <delete file="dist/user_data.db"/>
+
+        <!-- Create our dist folder. -->
+        <mkdir dir="${dist}"/>
+        <!-- Create the jar file as build.jar -->
+        <jar destfile="${dist}/team-4.jar" filesetmanifest="mergewithoutmain">
+            <!-- Specify the class which has the main method. -->
+            <manifest>
+                <attribute name="Main-Class" value="SystemController.Game"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <!-- Add in our compiled files. -->
+            <fileset dir="${build}/src"/>
+            <!-- Add in our libraries. -->
+            <zipgroupfileset dir="${lib}" includes="**/*.jar"/>
+        </jar>
+    </target>
+
+    <target name="doc" depends="clean">
+        <!-- Create the doc directory. -->
+        <mkdir dir="${doc}"/>
+        <!-- Generate the Javadoc. -->
+        <javadoc sourcepath="${src}" destdir="${doc}"/>
+    </target>
+
+    <!--
+    Execute Unit Tests
+    -->
+
+    <target name="test" depends="compile" description="Run unit tests">
+        <delete dir="${testresults}"/>
+        <mkdir dir="${testresults}"/>
+
+        <junit printsummary="yes" dir="${testresults}" fork="true">
+            <classpath>
+                <pathelement location="${lib}/junit-4.11.jar" />
+                <pathelement location="bin/" />
+            </classpath>
+            <classpath>
+                <pathelement location="junit-4.10.jar" />
+                <pathelement location="bin/src/Database/*class*" />
+                <pathelement location="bin/src/GameObject/*class*" />
+                <pathelement location="bin/src/GameObject/ArtificialIntelligence/*class*" />
+                <pathelement location="bin/src/Menu/*class*" />
+                <pathelement location="bin/src/SystemController/*class*" />
+            </classpath>
+            <formatter type="xml"  usefile="true"/>
+
+            <test name="test.Database.PlayerScore" haltonfailure="not" outfile="result"/>
+            <!--<test name="test.GameObject.*" haltonfailure="no" outfile="test-results"/>-->
+            <!--<test name="test.GameObject.ArtificialIntelligence.*" haltonfailure="no" outfile="test-results"/>-->
+            <!--<test name="test.GamePlay.*" haltonfailure="no" outfile="test-results"/>-->
+            <!--<test name="test.SystemController.*" haltonfailure="no" outfile="test-results"/>-->
+        </junit>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="dist/team-4.jar" fork="true"/>
+    </target>
+
+</project>

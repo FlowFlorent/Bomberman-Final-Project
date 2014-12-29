@@ -1,0 +1,80 @@
+package Menu;
+
+import Database.DatabaseController;
+import Database.PlayerScore;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+/**
+ * Created by FloMac on 11/23/14.
+ */
+public class LeaderboardsMenu extends MenuTemplate {
+
+    private MenuManager menuManager;
+    private ArrayList<PlayerScore> topScores = null;
+    private PlayerScore playerScore = null;
+    private boolean loadScoresFlag = false;
+
+    public LeaderboardsMenu(MenuManager menuManager) {
+        this.menuManager = menuManager;
+        this.loadScoresFlag = true;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        if (loadScoresFlag) {
+            try {
+                topScores = DatabaseController.getTopScoresSet();
+                playerScore = DatabaseController.getPlayerObject(menuManager.getPlayerUserName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            loadScoresFlag = false;
+        }
+
+        //draw the title
+        g.setColor(MenuTemplate.TITLE_COLOR);
+        g.setFont(MenuTemplate.TITLE_FONT);
+        g.setPaint(MenuTemplate.TITLE_COLOR);
+        g.drawString("LeaderboardsMenu", 80, 70);
+
+        //draw Back Button
+        g.setColor(MenuTemplate.BODY_SELECTED_COLOR);
+        g.drawString("Back", X_OFFSET, Y_OFFSET);
+        g.setFont(MenuTemplate.BODY_FONT);
+
+        //draw high scores
+        for (int i = 0 ; i < 10; i++) {
+            if (i >= topScores.size()) break;
+            PlayerScore playerScore = topScores.get(i);
+            g.drawString(playerScore.username, 240 - 100, Y_OFFSET + i * 15);
+            g.drawString("" + playerScore.score, 241 + 50, Y_OFFSET + i * 15);
+        }
+
+        System.out.println("User: " + menuManager.getPlayerUserName());
+        //draw user score
+        g.setFont(MenuTemplate.BODY_FONT);
+        g.setColor(MenuTemplate.BODY_COLOR);
+        g.drawString("" + playerScore.score, 241 + 50, Y_OFFSET + 150);
+        g.drawString(playerScore.username, 240 - 50, Y_OFFSET + 150);
+
+    }
+
+    @Override
+    public void keyPressed(int k) {
+        if (k == KeyEvent.VK_ENTER) {
+
+        }
+    }
+
+    @Override
+    public void keyReleased(int k) {
+
+    }
+}
