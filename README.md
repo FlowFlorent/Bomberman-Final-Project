@@ -8,6 +8,12 @@ If you want to play the game, simply download the jar file from the /dist direct
 username: default1
 password: ECSE321bman@@
 
+**Game controls:**
+
+Movement: Arrow keys
+Place bomb: z
+Detonate bomb (only works one the detonator PowerUp has been obtained): x
+
 Some of the cool things about this project:
 
 - Leaderboards system
